@@ -14,7 +14,7 @@ module.exports = {
         test: /\.js$/,
         include: [
           path.resolve(__dirname, './src'),
-          path.resolve(__dirname, '../src'),
+          path.resolve(__dirname, '../lib'),
           path.resolve(__dirname, './node_modules/react'),
           path.resolve(__dirname, './node_modules/react-dom')
         ],
@@ -31,7 +31,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      'react-numbers': path.join(__dirname, '..', 'src/index.js')
+      'react-numbers': path.join(__dirname, '..', 'lib/index.js')
     },
   },
   devtool: 'inline-source-map',

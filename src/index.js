@@ -67,7 +67,7 @@ class ReactNumbers extends Component {
   render() {
     const {num} = this.props;
     const {currNum} = this.state;
-    const velocity = this.velocity;
+    const velocity = this.velocity || 1;
     const renderedNum = currNum === num ? num :
       parseInt10(currNum/velocity)*velocity + parseInt10(Math.random()*velocity);
 
