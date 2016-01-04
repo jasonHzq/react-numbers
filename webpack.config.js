@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: __dirname + '/lib',
     filename: 'index.js',
-    library: 'better-hsv',
+    library: 'react-numbers',
     libraryTarget: 'umd'
   },
 
@@ -31,10 +31,6 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-
-  debug: isDebug,
-
-  devtool: isDebug ? 'inline-source-map' : false,
 
   watch: isDebug,
 };

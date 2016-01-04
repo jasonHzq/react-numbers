@@ -1,68 +1,82 @@
 /*
  * @Project ..
  * @author zongquan.hzq
- * @description ..
+ * @description react numbers with animation
  */
 
-/*
- * @param hue 色度，0~360
- * @param saturation 饱和度， 0~1小数
- * @param value 明度 0~1小数
- * @output rgb数组
- */
+import React, {Component, PropTypes} from 'react';
+import raf, {cancel as caf} from 'raf';
 
-const repeat = (val, num) => {
-  let res = [];
+const parseInt10 = num => parseInt(num, 10);
 
-  for(let i = 0; i < num ; ++i) {
-    res[i] = val;
+class ReactNumbers extends Component {
+  static propTypes = {
+    //结束数值，最终数值
+    num: PropTypes.number,
+    //开始数值
+    begin: PropTypes.number,
+    //动画持续时间
+    duration: PropTypes.number,
+    //一帧多少毫秒
+    frameTime: PropTypes.number,
+    //动画结束回调
+    onAnimationEnd: PropTypes.func,
   }
 
-  return res;
-}
-
-const produceOrder = (hue, saturation, value) => {
-  const max = 255*value;
-  const min = max*(1 - saturation);
-  const midK = 1 - Math.abs((hue%120 - 60)/60);
-  const mid = min + midK*(max - min);
-
-  return [max, mid, min];
-}
-
-const rgb2str = (...args) => {
-  return ['#', ...args.map(v => parseInt(v, 10).toString(16))].join('');
-}
-
-const _hsv2rgb = (hue, saturation, value) => {
-  const {round} = Math;
-  const side = parseInt(hue%360/60);
-
-  if(!saturation) {
-    return repeat(value, 3).map(round);
+  static defaultProps = {
+    num: 10000,
+    begin: 0,
+    duration: 1000,
+    frameTime: 37,
+    onAnimationEnd: () => {}
   }
 
-  const indices = [[0, 1, 2], [1, 0, 2], [2, 0, 1], [2, 1, 0], [1, 2, 0], [0, 2, 1]][side];
-  const vals = produceOrder(hue, saturation, value);
+  state = {
+    currNum: parseInt(this.props.begin, 10),
+  }
 
-  return rgb2str(...repeat({}, 3).map((o, i) => vals[indices[i]]));
+  update() {
+    const {frameTime, num} = this.props;
+    const {currNum} = this.state;
+
+    if(currNum === parseInt(this.props.num, 10)) {
+      caf(this.update);
+
+      return;
+    }
+
+    if(Date.now() - this.prevTime > frameTime) {
+      const nextNum = currNum + this.velocity;
+
+      this.setState({
+        currNum: nextNum > num ? num : nextNum
+      });
+      this.prevTime = Date.now();
+    }
+
+    raf(this.update.bind(this));
+  }
+
+  componentDidMount() {
+    const {duration, num, begin, frameTime} = this.props;
+    this.velocity = parseInt10((num - begin) / (duration/frameTime));
+    this.prevTime = Date.now();
+    this.update();
+  }
+
+  render() {
+    const {num} = this.props;
+    const {currNum} = this.state;
+    const velocity = this.velocity;
+    const renderedNum = currNum === num ? num :
+      parseInt10(currNum/velocity)*velocity + parseInt10(Math.random()*velocity);
+
+    return (
+      <div className="animated-number">
+        {renderedNum}
+      </div>
+    );
+  }
 }
 
-const hypot = (...args) => {
-  return Math.sqrt(args.map(v => v*v).reduce((res, curr) => res + curr));
-}
-
-const hsv2rgb = (hue, saturation, value) => {
-  const [max, mid ,min] = produceOrder(hue, saturation, value);
-  const newValue = hypot(max, min, min)/hypot(max, min, mid)*value;
-
-  return _hsv2rgb(hue, saturation, newValue);
-}
-
-const API = {
-  hsv2rgb,
-  _hsv2rgb,
-  rgb2str,
-};
-
-export default API;
+export default ReactNumbers;
