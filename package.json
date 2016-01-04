@@ -7,7 +7,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack -w webpack.config.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack webpack.config.js",
     "clean": "rm -rf build",
     "lint": "eslint src test"
   },
