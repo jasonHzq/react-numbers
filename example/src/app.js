@@ -1,6 +1,35 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
+import React, {Component} from 'react';
 import ReactNumbers from 'react-numbers';
 
-ReactDOM.render(<ReactNumbers num={2324234} begin={220323} />, document.getElementById('app'));
+class App extends Component {
+  state = {
+    isAnimationBegin: false,
+    num: 22322332,
+  }
+
+  handleBtnClick() {
+    this.setState({
+      isAnimationBegin: !this.setState.isAnimationBegin
+    });
+  }
+
+  handleChangeInput(e) {
+    this.setState({
+      num: parseInt(e.target.value, 10)
+    });
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <button className="btn" onClick={::this.handleBtnClick}>click me!</button>
+        <input type="text" onBlur={::this.handleChangeInput} placeholder='change num' />
+        <ReactNumbers num={this.state.num} initialNum={10032} isEnable={this.state.isAnimationBegin} /> 
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('app'));
 

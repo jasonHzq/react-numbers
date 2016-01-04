@@ -13,43 +13,57 @@ class ReactNumbers extends Component {
   static propTypes = {
     //结束数值，最终数值
     num: PropTypes.number,
-    //开始数值
-    begin: PropTypes.number,
+
+    //第一次开始数值
+    initialNum: PropTypes.number,
+
     //动画持续时间
     duration: PropTypes.number,
+
     //一帧多少毫秒
     frameTime: PropTypes.number,
+
+    //动画是否开始,若一开始为true，则在组件加载完后绘制动画；否则在改成TRUE时绘制动画
+    isEnable: PropTypes.bool,
+
     //动画结束回调
     onAnimationEnd: PropTypes.func,
   }
 
   static defaultProps = {
     num: 10000,
-    begin: 0,
+    initialNum: 0,
     duration: 1000,
     frameTime: 37,
+    isEnable: true,
     onAnimationEnd: () => {}
   }
 
   state = {
-    currNum: parseInt(this.props.begin, 10),
+    currNum: parseInt(this.props.initialNum, 10),
   }
 
   update() {
-    const {frameTime, num} = this.props;
+    const {frameTime} = this.props;
     const {currNum} = this.state;
+    const num = this.num;
 
-    if(currNum === parseInt(this.props.num, 10)) {
+    if(currNum === num) {
       caf(this.update);
 
       return;
     }
 
     if(Date.now() - this.prevTime > frameTime) {
-      const nextNum = currNum + this.velocity;
+      let nextNum = currNum + this.velocity;
+
+      if(nextNum > num) {
+        nextNum = num;
+        this.props.onAnimationEnd();
+      }
 
       this.setState({
-        currNum: nextNum > num ? num : nextNum
+        currNum: nextNum
       });
       this.prevTime = Date.now();
     }
@@ -57,19 +71,44 @@ class ReactNumbers extends Component {
     raf(this.update.bind(this));
   }
 
+  calVelocity(num) {
+    const {currNum} = this.state;
+    const {duration, frameTime} = this.props;
+    num = parseInt10(num || this.props.num);
+
+    this.num = num;
+    this.velocity = parseInt10((num - currNum) / (duration/frameTime));
+  }
+
+  componentWillMount() {
+    this.calVelocity();
+  }
+
   componentDidMount() {
-    const {duration, num, begin, frameTime} = this.props;
-    this.velocity = parseInt10((num - begin) / (duration/frameTime));
-    this.prevTime = Date.now();
-    this.update();
+    if(this.props.isEnable) {
+      this.prevTime = Date.now();
+      this.update();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!this.props.isEnable && nextProps.isEnable) {
+      this.prevTime = Date.now();
+      this.update();
+    }
+    if(nextProps.num !== this.props.num) {
+      this.calVelocity(nextProps.num);
+      this.prevTime = Date.now();
+      this.update();
+    }
   }
 
   render() {
-    const {num} = this.props;
+    const {num, isEnable} = this.props;
     const {currNum} = this.state;
-    const velocity = this.velocity || 1;
+    const velocity = this.velocity;
     const renderedNum = currNum === num ? num :
-      parseInt10(currNum/velocity)*velocity + parseInt10(Math.random()*velocity);
+      isEnable ? parseInt10(currNum/velocity)*velocity + parseInt10(Math.random()*velocity) : currNum;
 
     return (
       <div className="animated-number">
