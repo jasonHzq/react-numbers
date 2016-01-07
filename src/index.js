@@ -104,14 +104,15 @@ class ReactNumbers extends Component {
   }
 
   render() {
-    const {num, isEnable} = this.props;
+    const {num, isEnable, className, ...other} = this.props;
     const {currNum} = this.state;
     const velocity = this.velocity;
     const renderedNum = currNum === num ? num :
       isEnable ? parseInt10(currNum/velocity)*velocity + parseInt10(Math.random()*velocity) : currNum;
+    const CX = className ? 'animation-number ' + className : 'animation-number';
 
     return (
-      <div className="animated-number">
+      <div className={CX} {...other}>
         {renderedNum}
       </div>
     );
