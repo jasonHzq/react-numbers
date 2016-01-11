@@ -6,6 +6,7 @@ class App extends Component {
   state = {
     isAnimationBegin: false,
     num: 22322332,
+    none: false,
   }
 
   handleBtnClick() {
@@ -25,7 +26,7 @@ class App extends Component {
       <div className="app">
         <button className="btn" onClick={::this.handleBtnClick}>click me!</button>
         <input type="text" onBlur={::this.handleChangeInput} placeholder='change num' />
-        <ReactNumbers num={this.state.num} initialNum={10032} isEnable={this.state.isAnimationBegin} /> 
+        <ReactNumbers num={this.state.num} initialNum={10032} duration={5000} isEnable={this.state.isAnimationBegin}/>
       </div>
     );
   }
