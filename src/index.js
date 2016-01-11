@@ -32,7 +32,7 @@ class ReactNumbers extends Component {
 
     // className
     className: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     num: 10000,
@@ -41,11 +41,11 @@ class ReactNumbers extends Component {
     frameTime: 37,
     isEnable: true,
     onAnimationEnd: () => {},
-  }
+  };
 
   state = {
     currNum: parseInt(this.props.initialNum, 10),
-  }
+  };
 
   componentWillMount() {
     this.calVelocity();

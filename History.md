@@ -6,7 +6,7 @@
 =====================
 * receive className
 
-0.1.4 / 2016-01-11
+0.1.4/0.1.5 / 2016-01-11
 =====================
 * refactor: eslint rule
 * fix: cancel raf when component will unmount
