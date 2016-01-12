@@ -84,6 +84,14 @@ class ReactNumbers extends Component {
   }
 
   update() {
+    if (!ReactDOM.findDOMNode(this)) {
+      if (this.cafId) {
+        caf(this.cafId);
+      }
+
+      return;
+    }
+
     const {frameTime} = this.props;
     const {currNum} = this.state;
     const num = this.num;

@@ -1,6 +1,6 @@
 {
   "name": "react-numbers",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "react animation numbers",
   "main": "lib/index.js",
   "files": [
@@ -32,7 +32,13 @@
     "eslint-config-airbnb": "^1.0.0",
     "eslint-plugin-react": "^3.10.0",
     "isparta": "^4.0.0",
-    "istanbul-instrumenter-loader": "^0.1.3"
+    "istanbul-instrumenter-loader": "^0.1.3",
+    "react-dom": "~0.14.3",
+    "react": "~0.14.3"
+  },
+  "peerDependencies": {
+    "react-dom": "~0.14.3",
+    "react": "~0.14.3"
   },
   "maintainers": [
     {
@@ -43,8 +49,6 @@
   "author": "hzongquan",
   "license": "MIT",
   "dependencies": {
-    "raf": "^3.1.0",
-    "react": "~0.14.3",
-    "react-dom": "~0.14.3"
+    "raf": "^3.1.0"
   }
 }
