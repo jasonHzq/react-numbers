@@ -54,6 +54,11 @@ class ReactNumbers extends Component {
   componentDidMount() {
     if (this.props.isEnable) {
       this.prevTime = Date.now();
+
+      if (this.cafId) {
+        caf(this.cafId);
+      }
+
       this.update();
     }
   }
@@ -62,12 +67,19 @@ class ReactNumbers extends Component {
     if (nextProps.num !== this.props.num) {
       this.calVelocity(nextProps.num);
       this.prevTime = Date.now();
+
+      if (this.cafId) {
+        caf(this.cafId);
+      }
+
       this.update();
     }
   }
 
   componentWillUnmount() {
-    caf(this.cafId);
+    if (this.cafId) {
+      caf(this.cafId);
+    }
   }
 
   calVelocity(num) {
