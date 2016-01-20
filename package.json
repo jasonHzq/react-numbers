@@ -33,12 +33,12 @@
     "eslint-plugin-react": "^3.10.0",
     "isparta": "^4.0.0",
     "istanbul-instrumenter-loader": "^0.1.3",
-    "react-dom": "~0.14.3",
-    "react": "~0.14.3"
+    "react-dom": "~0.14.6",
+    "react": "~0.14.6"
   },
   "peerDependencies": {
-    "react-dom": "~0.14.3",
-    "react": "~0.14.3"
+    "react-dom": "~0.14.6",
+    "react": "~0.14.6"
   },
   "maintainers": [
     {
