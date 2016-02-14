@@ -44,7 +44,7 @@ class ReactNumbers extends Component {
   };
 
   state = {
-    currNum: this.props.isEnable ? this.props.num : parseInt(this.props.initialNum, 10),
+    currNum: this.props.isEnable ? this.props.num : parseInt10(this.props.initialNum),
   };
 
   componentWillMount() {
@@ -83,8 +83,8 @@ class ReactNumbers extends Component {
   }
 
   calVelocity(num) {
-    const {currNum} = this.state;
-    const {duration, frameTime} = this.props;
+    const { currNum } = this.state;
+    const { duration, frameTime } = this.props;
     const parsedNum = parseInt10(num || this.props.num);
 
     this.num = parsedNum;
@@ -92,8 +92,8 @@ class ReactNumbers extends Component {
   }
 
   update() {
-    const {frameTime} = this.props;
-    const {currNum} = this.state;
+    const { frameTime } = this.props;
+    const { currNum } = this.state;
     const num = this.num;
 
     if (currNum === num) {
@@ -102,7 +102,7 @@ class ReactNumbers extends Component {
       return;
     }
 
-    if (Date.now() - this.prevTime > frameTime) {
+    if (Date.now() - this.prevTime > frameTime && currNum < num) {
       let nextNum = currNum + this.velocity;
 
       if (nextNum > num) {
@@ -137,7 +137,7 @@ class ReactNumbers extends Component {
 
     return (
       <div className={CX} {...other}>
-        {renderedNum}
+        { renderedNum }
       </div>
     );
   }
